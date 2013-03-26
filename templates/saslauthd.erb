@@ -1,0 +1,7 @@
+# managed by puppet
+START=yes
+NAME="saslauthd"
+PARAMS="-r"
+MECHANISMS="rimap -O <%= _imapserver %>"
+THREADS=5
+OPTIONS="<%= debug_flag %> -c -m /var/spool/postfix/var/run/saslauthd"
