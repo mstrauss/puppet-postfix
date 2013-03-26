@@ -1,13 +1,9 @@
 class postfix::server::header_checks( $ensure = present ) {
   
-  if $ensure == present {
-    modules_dir{ 'postfix/header_checks.d': }
-    file { "/var/lib/puppet/modules/postfix/header_checks.d/000-header":
-      content => "# managed by puppet\n",
-      notify => Exec["concat_/etc/postfix/header_checks"],
-    }
-    concatenated_file { "/etc/postfix/header_checks":
-      dir    => '/var/lib/puppet/modules/postfix/header_checks.d',
+  file { '/etc/postfix/header_checks': ensure => $ensure }
+  
+  if $ensure =~ /present|true/ {
+    File_line <| tag == header_check |> {
       notify => Service[postfix],
     }
   }
