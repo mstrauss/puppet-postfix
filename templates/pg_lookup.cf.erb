@@ -1,0 +1,23 @@
+#
+# pgsql config file for <%= title %>
+# [managed by puppet]
+#
+
+# The hosts that Postfix will try to connect to
+hosts = <%= hosts.is_a?(Array) ? hosts.join(' ') : hosts %>
+
+# The user name and password to log into the pgsql server.
+user = <%= user %>
+password = <%= password %>
+
+# The database name on the servers.
+dbname = <%= dbname %>
+
+# Postfix 2.2 and later The SQL query template. See pgsql_table(5).
+query = <%= query %>
+
+# Advanced options
+result_format = <%= result_format %>
+<% unless domain == :undef -%>
+domain = <%= domain %>
+<% end %>
