@@ -23,6 +23,7 @@ class postfix( $ensure = present ) {
 
     exec { "newaliases":
       refreshonly => true,
+      command     => '/usr/bin/newaliases',
       notify      => Service[postfix],
     }
 
