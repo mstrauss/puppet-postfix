@@ -5,6 +5,7 @@
 #   $hosts: database servers
 #
 define postfix::pg_lookup( $hosts, $user, $password, $dbname, $query,
+  $postfix_user = 'postfix',
   $result_format = '%s', $domain = undef, $ensure = present )
 { 
   if $ensure =~ /present|true/ {
@@ -16,6 +17,7 @@ define postfix::pg_lookup( $hosts, $user, $password, $dbname, $query,
   
   file{ "/etc/postfix/pgsql_${title}.cf":
     content => template( 'postfix/pg_lookup.cf.erb' ),
+    owner   => $postfix_user,
     mode    => 640,
     notify  => Service[postfix],
     ensure  => $ensure,
