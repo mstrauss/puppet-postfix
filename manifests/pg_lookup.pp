@@ -8,6 +8,8 @@ define postfix::pg_lookup( $hosts, $user, $password, $dbname, $query,
   $postfix_user = 'postfix',
   $result_format = '%s', $domain = undef, $ensure = present )
 { 
+  Package[postfix] -> Pg_lookup[$title]
+  
   if $ensure =~ /present|true/ {
     $postfix_pgsql = 'postfix-pgsql'
     if !defined(Package[$postfix_pgsql]) {

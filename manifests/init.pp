@@ -14,6 +14,7 @@ class postfix( $ensure = present ) {
     }
 
     file { "/var/lib/postfix":
+      require => Package[postfix],
       owner   => postfix,
       group   => postfix,
       mode    => 600,
