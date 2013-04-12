@@ -27,7 +27,7 @@ define postfix::mastercf(
       absent  => absent,
       default => "${creates}\\2",
     },
-    creates => "/^${creates_escaped}/",
+    creates => "/^${creates_escaped}(?=\\S|\\Z)/",
     exact => true,
     notify  => Service[postfix],
   }
