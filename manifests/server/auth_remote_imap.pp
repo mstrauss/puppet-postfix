@@ -4,7 +4,7 @@
 class postfix::server::auth_remote_imap( $imapserver, $stunnel, $debug = false ) {
 
   Package[postfix] -> Class[postfix::server::auth_remote_imap]
-  
+
   # required packages
   package { [ libsasl2-modules, sasl2-bin ]: }
 

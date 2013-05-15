@@ -9,16 +9,16 @@ define postfix::mastercf(
   $args    = '',
   $ensure  = present )
 {
-  
+
   if $args != '' {
     $_args = "  ${args}\n"
   } else {
     $_args = $args
   }
-  
+
   $creates = "${name}\t${type}\t${private}\t${unpriv}\t${chroot}\t${wakeup}\t${maxproc}\t${command}\n${_args}"
   $creates_escaped = inline_template( '<%= Regexp.escape(creates).gsub("/", "\\/") %>' )
-  
+
   editfile { "master.cf ${name}":
     require => Package[postfix],
     path    => '/etc/postfix/master.cf',

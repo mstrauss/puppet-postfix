@@ -22,7 +22,7 @@ class postfix::tls::client(
         default => absent,
       },
       ;
-    smtp_tls_loglevel: 
+    smtp_tls_loglevel:
       ensure => $ensure ? {
         present => '1',
         default => absent,

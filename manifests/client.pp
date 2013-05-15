@@ -2,7 +2,7 @@
 
 # this is an configurable class for postfix "clients",
 # which listen locally only and probably use a smarthost
-# 
+#
 # usage:
 #   class { postfix::client: smarthost => "mailhost.internal.net" }
 #

@@ -1,6 +1,6 @@
 # $title : mailname to configure
 define postfix::mailname() {
-  
+
   postfix::maincf {
     myhostname:
       ensure => $title;

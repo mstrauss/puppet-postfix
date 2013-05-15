@@ -1,5 +1,5 @@
 define postfix::maincf( $ensure ) {
-  
+
   editfile::config { "main.cf ${name}":
     require => Package[postfix],
     path    => '/etc/postfix/main.cf',
@@ -8,5 +8,5 @@ define postfix::maincf( $ensure ) {
     ensure  => $ensure,
     notify  => Service[postfix],
   }
-  
+
 }

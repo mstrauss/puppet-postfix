@@ -12,11 +12,11 @@ class postfix::server(
   $nagios_crit = 50,
   $ensure = present
 ) {
-  
+
   class { 'postfix': ensure => $ensure }
-  
+
   if $ensure == present {
-    
+
     if $nagios_enables == true {
       class { 'postfix::nagios':
         warn => $nagios_warn, crit => $nagios_crit,
@@ -29,7 +29,7 @@ class postfix::server(
     if $mailname != undef {
       postfix::mailname { $mailname: }
     }
-  
+
     if $submission =~ /^(true|present)$/ {
       editfile::config { 'enable submission':
         require => Package[postfix],
@@ -46,20 +46,20 @@ class postfix::server(
         notify  => Service[postfix],
       }
     }
-    
+
     if $mynetworks != undef {
-      
+
       $_networks = join( $mynetworks, ' ' )
-      
+
       postfix::maincf { mynetworks:
         # allowed is localhost and our list
         ensure => "127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 ${_networks}",
       }
     }
-    
+
     # this is a server => listen on all interfaces
     class { 'postfix::listen': interfaces => "all" }
-    
+
     # double bounce mails go to postmaster, please
     postfix::maincf { 'notify_classes': ensure => '2bounce, resource, software'; }
   }
