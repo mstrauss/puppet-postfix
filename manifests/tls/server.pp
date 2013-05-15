@@ -1,43 +1,10 @@
 # Set $ssl_port to 'smtps' if you want to enable SSL on this port 465.
-class postfix::tls::server( $cert, $key, $mandatory_inbound = false, $ssl_port = undef ) {
-
-
-  # FixMe: so funktioniert das nicht sauber!!!
-  # --- cleanup ---
-
-  file{ "/etc/ssl/certs/$title.pem":
-    # content => $cert,
-    ensure  => absent,
-    notify  => Exec[c_rehash],
-  }
-
-  # recreate hash links in /etc/ssl/certs
-  exec { 'c_rehash':
-    command     => '/usr/bin/c_rehash',
-    refreshonly => true,
-  }
-
-  file{ "/etc/ssl/private/$title.key":
-    # content => $key,
-    # mode => 640,
-    # group => ssl-cert,
-    ensure => absent,
-  }
-
-  # --- so besser ---
-  $keypath = '/etc/postfix/tls/server.key'
-  $crtpath = '/etc/postfix/tls/server.pem'
-
-  file {
-    '/etc/postfix/tls': ensure => directory;
-    $keypath:
-      content => $key,
-      mode => 640,
-      ;
-    $crtpath:
-      content => $cert,
-      ;
-  }
+class postfix::tls::server(
+  $crtpath           = $postfix::tls::params::default_ssl_cert,
+  $keypath           = $postfix::tls::params::default_ssl_cert,
+  $mandatory_inbound = false,
+  $ssl_port          = undef,
+) inherits postfix::tls::params {
 
   postfix::maincf {
     smtpd_tls_cert_file:
