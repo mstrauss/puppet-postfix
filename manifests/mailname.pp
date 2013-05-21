@@ -1,14 +1,34 @@
-# $title : mailname to configure
-define postfix::mailname() {
+# Class postfix::mailname
+#
+# Description
+#
+# == Parameters
+#
+#   [*mailname*]
+#     mailname to configure
+#   [*configure_mydestinations*]
+#     Shall we manage mydestination?
+#
+# == Examples
+#
+#
+# == Requires
+#
+class postfix::mailname( $mailname, $configure_mydestinations = true ) {
 
   postfix::maincf {
     myhostname:
-      ensure => $title;
+      ensure => $mailname;
     myorigin:
       ensure => absent;     # defaults to $myhostname, which is good
-    mydestination:
-      # we append $::fqdn to the default destinations
-      ensure => "\$myhostname, localhost.\$mydomain, localhost, ${::fqdn}";
+  }
+
+  if configure_mydestinations == true {
+    postfix::maincf {
+      mydestination:
+        # we append $::fqdn to the default destinations
+        ensure => "\$myhostname, localhost.\$mydomain, localhost, ${::fqdn}";
+    }
   }
 
 }

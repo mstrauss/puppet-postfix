@@ -27,7 +27,7 @@ class postfix::server(
     class { 'postfix::server::header_checks': ensure => $header_checks }
 
     if $mailname != undef {
-      postfix::mailname { $mailname: }
+      class { postfix::mailname: mailname => $mailname }
     }
 
     if $submission =~ /^(true|present)$/ {

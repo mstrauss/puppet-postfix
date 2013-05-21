@@ -23,6 +23,6 @@ class postfix::client(
 
   # set mailname
   if $mailname != undef {
-    postfix::mailname { $mailname: }
+    class { postfix::mailname: mailname => $mailname }
   }
 }
