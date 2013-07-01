@@ -5,7 +5,7 @@ class postfix::server(
   $smarthost = absent,
   $header_checks = false,
   $mynetworks = undef,
-  $submission = false,
+  $submission = undef,
   $nagios_enabled = false,
   $nagios_notification_period = undef,
   $nagios_warn = 15,
@@ -38,6 +38,7 @@ class postfix::server(
         notify  => Service[postfix],
       }
     } elsif $submission =~ /^(false|absent)$/ {
+      # FIXME: this does not remove multi-line submission entries correctly
       editfile { 'disable submission':
         require => Package[postfix],
         path    => '/etc/postfix/master.cf',
